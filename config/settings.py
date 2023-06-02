@@ -45,6 +45,11 @@ INSTALLED_APPS = [
     "corsheaders",
     # Local app
     'account_api',
+    'category',
+    'cart',
+    'product',
+    'shop',
+    'connection'
 ]
 
 MIDDLEWARE = [
