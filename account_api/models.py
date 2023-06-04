@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+import uuid
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, name,check_condition, password=None, password2=None):
@@ -35,6 +36,7 @@ class MyUserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+    uid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     email = models.EmailField(
         verbose_name='Email',
         max_length=255,

@@ -36,7 +36,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id','name','email','check_condition','is_merchant']
+        fields = ['uid','name','email','check_condition','is_merchant']
 
 
 class UserChangePasswordSerializer(serializers.Serializer):

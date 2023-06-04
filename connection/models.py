@@ -1,6 +1,6 @@
 from django.db import models
 from shop.models import Shop
-
+import uuid
 
 status = (
     ("pending", "pending"),
@@ -10,6 +10,7 @@ status = (
 
 
 class Connection(models.Model):
+    uid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     source_shop = models.ForeignKey(
         Shop, on_delete=models.CASCADE, related_name='sent_connection')
     target_shop = models.ForeignKey(
