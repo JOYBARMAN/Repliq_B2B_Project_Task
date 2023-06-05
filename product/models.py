@@ -8,7 +8,7 @@ class Product(models.Model):
     product_name=models.CharField(max_length=255)
     price = models.PositiveIntegerField()
     description=models.TextField()
-    image = models.ImageField(upload_to="product/")
+    image = models.ImageField(upload_to="product/images/")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

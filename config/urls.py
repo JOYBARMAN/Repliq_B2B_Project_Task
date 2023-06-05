@@ -22,7 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/merchant/',include('account_api.urls')),
     path('api/category/',include('category.urls')),
-    path('api/shop/',include('shop.urls'))
+    path('api/shop/',include('shop.urls')),
+    path('api/shop/<shop_uid>/',include('product.urls'))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

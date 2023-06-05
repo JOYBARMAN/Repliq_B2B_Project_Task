@@ -14,7 +14,7 @@ from django.http import Http404
 
 class ShopAPIView(APIView):
     renderer_classes = [UserRenderers]
-    permission_classes = [IsAuthenticated,IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         merchant = request.user  # logged-in merchant is stored in the request
@@ -66,7 +66,7 @@ class ShopAPIView(APIView):
 
 class ShopDetailView(APIView):
     renderer_classes = [UserRenderers]
-    permission_classes = [IsAuthenticated,IsAdminUser]
+    permission_classes = [IsAuthenticated]
     def get_object(self, uid):
         try:
             return Shop.objects.get(uid=uid)
@@ -114,7 +114,7 @@ class ShopDetailView(APIView):
 
 class ActiveShopView(APIView):
     renderer_classes = [UserRenderers]
-    permission_classes = [IsAuthenticated,IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, shop_uid):
         # Check if the merchant has any active shop
@@ -142,7 +142,7 @@ class ActiveShopView(APIView):
 
 class DeactiveShopView(APIView):
     renderer_classes = [UserRenderers]
-    permission_classes = [IsAuthenticated,IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, shop_uid):
         try:

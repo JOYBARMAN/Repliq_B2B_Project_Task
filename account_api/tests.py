@@ -22,6 +22,7 @@ class TestMerchantAccountApi(APITestCase):
         }
         response = self.client.post('/api/merchant/register/', data=payload,format="json", **headers)
         self.assertEquals(response.status_code,status.HTTP_201_CREATED)
+        # self.assertEquals(response.data['email'],payload['email'])
      
 
 

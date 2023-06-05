@@ -6,17 +6,14 @@ from rest_framework.response import Response
 from rest_framework import status
 from account_api.renderers import UserRenderers
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
-# from rest_framework.parsers import MultiPartParser, FormParser
-# from .pagination import MyPagination
-# from django.db.models import Q
-# from rest_framework import filters
+
 
 
 # Api view for category start
 
 class CategoryList(APIView):
     renderer_classes = [UserRenderers]
-    permission_classes = [IsAuthenticated,IsAdminUser]
+    permission_classes = [IsAuthenticated]
     def get(self, request, format=None):
         category = Category.objects.all()
         serializer = CategorySerializers(category, many=True)
@@ -31,7 +28,7 @@ class CategoryList(APIView):
 
 class CategoryDetail(APIView):
     renderer_classes = [UserRenderers]
-    permission_classes = [IsAuthenticated,IsAdminUser]
+    permission_classes = [IsAuthenticated]
     def get_object(self, uid):
         try:
             return Category.objects.get(uid=uid)
