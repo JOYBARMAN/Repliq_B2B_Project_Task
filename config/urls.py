@@ -23,7 +23,8 @@ urlpatterns = [
     path('api/merchant/',include('account_api.urls')),
     path('api/category/',include('category.urls')),
     path('api/shop/',include('shop.urls')),
-    path('api/shop/<shop_uid>/',include('product.urls'))
+    path('api/shop/<shop_uid>/',include('product.urls')),
+    path('api/connection/',include('connection.urls'))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
