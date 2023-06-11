@@ -17,14 +17,26 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 urlpatterns = [
+    path('', SpectacularSwaggerView.as_view(url_name='api-schema'), name='api-docs'),
+    path('api/schema', SpectacularAPIView.as_view(), name='api-schema'),
     path('admin/', admin.site.urls),
-    path('api/merchant/',include('account_api.urls')),
-    path('api/category/',include('category.urls')),
-    path('api/shop/',include('shop.urls')),
-    path('api/shop/<shop_uid>/',include('product.urls')),
-    path('api/connection/',include('connection.urls'))
+    # authentication app url
+    path('api/auth/',include('account_api.urls')),
+    # category app url
+    path('api/',include('category.urls')),
+    # shop app url 
+    path('api/',include('shop.urls')),
+    # product app url 
+    path('api/shops/<shop_uid>/',include('product.urls')),
+    # connection app url 
+    path('api/connections/',include('connection.urls')),
+    # cart app url 
+    path('api/shops/<shop_uid>/',include('cart.urls')),
+    # order app url 
+    path('api/shops/<shop_uid>/',include('order.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

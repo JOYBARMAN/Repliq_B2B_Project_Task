@@ -11,19 +11,19 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('shop', '0001_initial'),
+        ('product', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Product',
+            name='Cart',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('uid', models.UUIDField(default=uuid.uuid4, editable=False, unique=True)),
-                ('product_name', models.CharField(max_length=255)),
-                ('price', models.PositiveIntegerField()),
-                ('description', models.TextField()),
-                ('image', models.ImageField(upload_to='product/images/')),
+                ('quantity', models.PositiveIntegerField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('updated_at', models.DateTimeField(auto_now=True)),
+                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='product.product')),
                 ('shop', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shop.shop')),
             ],
         ),

@@ -1,6 +1,7 @@
 from product.serializers import ProductSerializers,ProductPostSerializers
 from product.models import Product
 from shop.models import Shop
+from connection.models import Connection
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -111,3 +112,42 @@ class ProductSearchView(APIView):
                 return Response({'message': 'No product found .'}, status=status.HTTP_404_NOT_FOUND)
             
         return Response({'message': 'You are not merchant of this shop'}, status=status.HTTP_403_FORBIDDEN)
+    
+
+class ConnectedShopProduct(APIView):
+    renderer_classes = [UserRenderers]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request ,shop_uid):
+        # merchant who want to see another merchant shop product
+        requested_merchant = request.user
+
+        # find the shop with shop uid and then find the shop product
+        shop = Shop.objects.get(uid=shop_uid)
+        shop_products = Product.objects.filter(shop=shop)
+
+        # now check if the merchant isn't want to see his own shop product
+        if shop.merchant == requested_merchant :
+            return Response({'message':'you can not see your own product with this url'},status=status.HTTP_403_FORBIDDEN)
+
+        # now find the connection is exits with requested_merchant shop and target shop
+        try: 
+            connection = Connection.objects.get(target_shop = shop)
+        except Connection.DoesNotExist:
+            return Response({'message': 'No Connection Found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        # now check if the source shop merchant is same as requested merchant and their status is approve or not
+        if connection.source_shop.merchant == requested_merchant:
+            if connection.status == 'approved':
+                if shop_products:
+                    # is everything ok we give the access to product 
+                    serializer = ProductSerializers(shop_products, many=True)
+                    return Response(serializer.data,status=status.HTTP_200_OK)
+                else:
+                    return Response({'message': 'No product found for this shop.'}, status=status.HTTP_404_NOT_FOUND)
+           
+            return Response({'message':"your connection request isn't approved yet"},status=status.HTTP_403_FORBIDDEN)
+        
+        return Response({'message':"you don't have any connection with this shop"},status=status.HTTP_403_FORBIDDEN)
+
+

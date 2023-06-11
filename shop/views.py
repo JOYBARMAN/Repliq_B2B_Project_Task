@@ -9,8 +9,23 @@ from account_api.renderers import UserRenderers
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
 from django.http import Http404
+from drf_spectacular.utils import extend_schema
 
 
+class ShopListView(APIView):
+    renderer_classes = [UserRenderers]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        shops = Shop.objects.all()
+        if shops:
+            serializer = ShopSerializers(shops, many=True)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        
+        return Response({'message': 'No shop found '}, status=status.HTTP_404_NOT_FOUND)
+
+
+# shop view for merchant 
 
 class ShopAPIView(APIView):
     renderer_classes = [UserRenderers]
@@ -24,8 +39,12 @@ class ShopAPIView(APIView):
             serializer = ShopSerializers(shops, many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
         else:
-            return Response({'message': 'No shop found for this merchant.'}, status=status.HTTP_404_NOT_FOUND)      
-
+            return Response({'message': 'No shop found for this merchant.'}, status=status.HTTP_404_NOT_FOUND)
+              
+    @extend_schema(
+    request=ShopPostSerializers,
+    responses={201: ShopPostSerializers},
+    )
     def post(self, request):
         merchant_uid = request.data.get('merchant')
         category_uid = request.data.get('category')
@@ -38,18 +57,6 @@ class ShopAPIView(APIView):
             return Response({'message': 'Merchant not found with this uid'}, status=status.HTTP_400_BAD_REQUEST)
         except Category.DoesNotExist:
             return Response({'message': 'Category not found with this uid'}, status=status.HTTP_400_BAD_REQUEST)
-        merchant_data={
-            "uid": merchant.uid,
-            "name": merchant.name,
-            "email": merchant.email,
-            "check_condition": merchant.check_condition,
-            "is_merchant": merchant.is_merchant
-        }
-        category_data ={
-            "uid": category.uid,
-            "category_name": category.category_name,
-            "description": category.description
-        }
         data={
             'merchant':merchant.id,
             'shop_name':request.data.get('shop_name'),
@@ -80,6 +87,10 @@ class ShopDetailView(APIView):
         serializer = ShopSerializers(shop)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
+    @extend_schema(
+    request=ShopPostSerializers,
+    responses={201: ShopPostSerializers},
+    )
     def put(self, request,uid, format=None):
         shop = self.get_object(uid)
         merchant_uid = request.data.get('merchant')
@@ -115,9 +126,12 @@ class ShopDetailView(APIView):
 class ActiveShopView(APIView):
     renderer_classes = [UserRenderers]
     permission_classes = [IsAuthenticated]
-
+    @extend_schema(
+    request=ActiveShopSerializer,
+    responses={201: ActiveShopSerializer},
+    )
     def post(self, request, shop_uid):
-        # Check if the merchant has any active shop
+        # Check if the merchant has any active shop already
         if Shop.objects.filter(merchant=request.user, is_active=True).exists():
             return Response({"msg": "You already have an active shop. Please log out from that shop."}, status=status.HTTP_400_BAD_REQUEST)
         
@@ -134,7 +148,7 @@ class ActiveShopView(APIView):
                 shop.save()
                 return Response({"msg": "Shop Successfully Activated"}, status=status.HTTP_201_CREATED)
             else:
-                return Response({"msg": "Activation Code doesn't match"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"msg": "Code not match"}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         

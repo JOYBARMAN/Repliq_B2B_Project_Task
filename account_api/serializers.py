@@ -70,7 +70,7 @@ class SendPasswordResetEmailSerializer(serializers.Serializer):
             print("Encoded id",user_id)
             token = PasswordResetTokenGenerator().make_token(user)
             print("reset_token",token)
-            link = "http://localhost:8000/api/merchant/passwordreset/"+user_id+"/"+token+"/"
+            link = "http://localhost:8000/api/auth/reset-password/"+user_id+"/"+token+"/"
             print("password reset link",link)
             body = 'Click the link to reset your password '+link
             data ={

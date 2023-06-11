@@ -17,10 +17,12 @@ class ShopPostSerializers(serializers.ModelSerializer):
     
     class Meta:
         model = Shop
-        fields = '__all__'
+        fields = ['merchant','shop_name','category','description','active_code']
 
 
 class ActiveShopSerializer(serializers.Serializer):
     active_code = serializers.CharField(max_length=20)
     class Meta:
         fields = ['active_code']
+
+

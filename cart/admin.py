@@ -1,15 +1,10 @@
 from django.contrib import admin
-from cart.models import Cart,CartItem
+from cart.models import Cart
 
 class CartModelAdmin(admin.ModelAdmin):
-    list_display = ('shop','total', 'is_complete')
-    search_fields = ('shop',)
-    list_filter = ('is_complete',)
+    list_display = ('shop','product', 'quantity')
+    search_fields = ('product__product_name',)
+    list_filter = ('shop__shop_name',)
 
-class CartItemModelAdmin(admin.ModelAdmin):
-    list_display = ('cart', 'sub_total')
-    # search_fields = ('product_name',)
-    # list_filter = ('price','shop__category')
 
 admin.site.register(Cart,CartModelAdmin)
-admin.site.register(CartItem,CartItemModelAdmin)
