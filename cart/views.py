@@ -45,21 +45,24 @@ class CartList(APIView):
             return Response({'message': 'Shop Not Found with this shop uid'}, status=status.HTTP_400_BAD_REQUEST)
         
         if shop.merchant == merchant:
-            try:
-                product = Product.objects.get(uid=request.data.get('product'))
-            except Product.DoesNotExist:
-                return Response({'message': 'product not found with this uid'}, status=status.HTTP_400_BAD_REQUEST)
-            
-            data={
-                'shop':shop.id,
-                'product':product.id,
-                'quantity':1
-            }
+            if shop.is_active:
+                try:
+                    product = Product.objects.get(uid=request.data.get('product'))
+                except Product.DoesNotExist:
+                    return Response({'message': 'product not found with this uid'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                data={
+                    'shop':shop.id,
+                    'product':product.id,
+                    'quantity':1
+                }
 
-            serializer = AddCartSerializers(data=data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response({'message': 'Cart added sucessfully'}, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                serializer = AddCartSerializers(data=data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({'message': 'Cart added sucessfully'}, status=status.HTTP_201_CREATED)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+            return Response({'message': 'Your shop is not active yet'}, status=status.HTTP_404_NOT_FOUND)
         
         return Response({'message': 'You are not proper merchant to add cart'}, status=status.HTTP_404_NOT_FOUND)

@@ -123,48 +123,89 @@ class ShopDetailView(APIView):
         return Response({"msg":"Shop Successfully Removed"},status=status.HTTP_204_NO_CONTENT)
     
 
-class ActiveShopView(APIView):
+# class ActiveShopView(APIView):
+#     renderer_classes = [UserRenderers]
+#     permission_classes = [IsAuthenticated]
+#     @extend_schema(
+#     request=ActiveShopSerializer,
+#     responses={201: ActiveShopSerializer},
+#     )
+#     def post(self, request, shop_uid):
+#         # Check if the merchant has any active shop already
+#         if Shop.objects.filter(merchant=request.user, is_active=True).exists():
+#             return Response({"msg": "You already have an active shop. Please log out from that shop."}, status=status.HTTP_400_BAD_REQUEST)
+        
+#         try:
+#             shop = Shop.objects.get(uid=shop_uid)
+#         except Shop.DoesNotExist:
+#             return Response({'message': 'Shop not found '}, status=status.HTTP_400_BAD_REQUEST)
+       
+#         serializer = ActiveShopSerializer(data=request.data)
+        
+#         if serializer.is_valid():
+#             if shop.active_code == serializer.validated_data['active_code']:
+#                 shop.is_active = True
+#                 shop.save()
+#                 return Response({"msg": "Shop Successfully Activated"}, status=status.HTTP_201_CREATED)
+#             else:
+#                 return Response({"msg": "Code not match"}, status=status.HTTP_400_BAD_REQUEST)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+# class DeactiveShopView(APIView):
+#     renderer_classes = [UserRenderers]
+#     permission_classes = [IsAuthenticated]
+
+#     def post(self, request, shop_uid):
+#         try:
+#             shop = Shop.objects.get(uid=shop_uid)
+#             shop.is_active = False
+#             shop.save()
+#             return Response({"msg": "Shop Successfully Deactivated"}, status=status.HTTP_201_CREATED)
+#         except Shop.DoesNotExist:
+#             return Response({'message': 'Shop not found '}, status=status.HTTP_400_BAD_REQUEST)
+       
+class ShopStatusView(APIView):
     renderer_classes = [UserRenderers]
     permission_classes = [IsAuthenticated]
+
     @extend_schema(
-    request=ActiveShopSerializer,
-    responses={201: ActiveShopSerializer},
+        request=ActiveShopSerializer,
+        responses={201: ActiveShopSerializer},
     )
-    def post(self, request, shop_uid):
-        # Check if the merchant has any active shop already
-        if Shop.objects.filter(merchant=request.user, is_active=True).exists():
-            return Response({"msg": "You already have an active shop. Please log out from that shop."}, status=status.HTTP_400_BAD_REQUEST)
-        
+    def post(self, request, shop_uid, status):
         try:
             shop = Shop.objects.get(uid=shop_uid)
         except Shop.DoesNotExist:
             return Response({'message': 'Shop not found '}, status=status.HTTP_400_BAD_REQUEST)
-       
+
+        if status == 'activate':
+            return self.activate_shop(request, shop)
+        elif status == 'deactivate':
+            return self.deactivate_shop(request, shop)
+        else:
+            return Response({'message': 'Invalid status'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def activate_shop(self, request, shop):
+        if Shop.objects.filter(merchant=request.user, is_active=True).exists():
+                return Response({"msg": "You already have an active shop. Please log out from that shop."}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = ActiveShopSerializer(data=request.data)
-        
+
         if serializer.is_valid():
             if shop.active_code == serializer.validated_data['active_code']:
                 shop.is_active = True
                 shop.save()
                 return Response({"msg": "Shop Successfully Activated"}, status=status.HTTP_201_CREATED)
             else:
-                return Response({"msg": "Code not match"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"msg": "Code does not match"}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
 
-
-class DeactiveShopView(APIView):
-    renderer_classes = [UserRenderers]
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, shop_uid):
-        try:
-            shop = Shop.objects.get(uid=shop_uid)
-            shop.is_active = False
-            shop.save()
-            return Response({"msg": "Shop Successfully Deactivated"}, status=status.HTTP_201_CREATED)
-        except Shop.DoesNotExist:
-            return Response({'message': 'Shop not found '}, status=status.HTTP_400_BAD_REQUEST)
-       
+    def deactivate_shop(self, request, shop):
+        shop.is_active = False
+        shop.save()
+        return Response({"msg": "Shop Successfully Deactivated"}, status=status.HTTP_201_CREATED)
 

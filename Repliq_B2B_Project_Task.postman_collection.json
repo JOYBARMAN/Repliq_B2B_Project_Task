@@ -1,0 +1,1245 @@
+{
+	"info": {
+		"_postman_id": "f7e442f3-dbaa-4c54-b444-18811fec7f3f",
+		"name": "Repliq_B2B_Project_Task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25248329"
+	},
+	"item": [
+		{
+			"name": "merchant_account",
+			"item": [
+				{
+					"name": "Register Merchant Account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "merchant3@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "merchant3",
+									"type": "text"
+								},
+								{
+									"key": "check_condition",
+									"value": "True",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "password2",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Merchant Account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "merchant1@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Merchant Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/auth/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "password2",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/change-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send_Email_Password_Reset",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "merchant1@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/reset-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Password Reset",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "password2",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8000/api/auth/reset-password/Mg/bpn055-56404dcdc21a5be7412fa1e84a083202",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"reset-password",
+								"Mg",
+								"bpn055-56404dcdc21a5be7412fa1e84a083202"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "Get all Category",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "category_name",
+									"value": "new cat",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "This is new cT",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category Detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/categories/8d3fc382-fad7-47f8-9b71-389f9029b7e9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"categories",
+								"8d3fc382-fad7-47f8-9b71-389f9029b7e9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "category_name",
+									"value": "sports",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "sports description",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/categories/0fecef3f-bfe1-4dce-9723-14e59c9e8898",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"categories",
+								"0fecef3f-bfe1-4dce-9723-14e59c9e8898"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/categories/3c52628e-1b24-4d55-8ea7-a4669d0f317",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"categories",
+								"3c52628e-1b24-4d55-8ea7-a4669d0f317"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "merchant_shop",
+			"item": [
+				{
+					"name": "Get Merchant Shop",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/we/shops",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"we",
+								"shops"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Merchant Shop",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "merchant",
+									"value": "362ea740-4218-40f1-a76a-2ee7ac9ca353",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "8d3fc382-fad7-47f8-9b71-389f9029b7e9",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "shop_name",
+									"value": "merchant 2 new shop 2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "this is a merchant 2 new shop 2 ",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "active_code",
+									"value": "4236fvh212@25",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/we/shops",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"we",
+								"shops"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Shop Detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/we/shops/530743bc-5fa8-459f-a53e-e9036e89d085",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"we",
+								"shops",
+								"530743bc-5fa8-459f-a53e-e9036e89d085"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Shop",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/we/shops/7e5ed235-68cb-4d8b-8164-e7d64bdeae2f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"we",
+								"shops",
+								"7e5ed235-68cb-4d8b-8164-e7d64bdeae2f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Merchant Shop",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "merchant",
+									"value": "2a5c0a8e-bb45-414b-a277-44e3db4f0dd8",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "a9e137a9-e12f-4383-b776-287673c2af51",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "shop_name",
+									"value": "admin1 new shop",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "this is admin first shop",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "active_code",
+									"value": "3654bnqb3t6",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/we/shops/7e5ed235-68cb-4d8b-8164-e7d64bdeae2f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"we",
+								"shops",
+								"7e5ed235-68cb-4d8b-8164-e7d64bdeae2f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate/Deactive Shop",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "active_code",
+									"value": "421436fvh212@24",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/shops/530743bc-5fa8-459f-a53e-e9036e89d085/status/activate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"shops",
+								"530743bc-5fa8-459f-a53e-e9036e89d085",
+								"status",
+								"activate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Global shop",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/shops",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"shops"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "merchant_shop_product",
+			"item": [
+				{
+					"name": "Get Merchant Shop Product",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/shops/530743bc-5fa8-459f-a53e-e9036e89d085/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"shops",
+								"530743bc-5fa8-459f-a53e-e9036e89d085",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Merchant Shop product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "product_name",
+									"value": "monitor",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "1800",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "this is a new monitor",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/barma/Downloads/xiaomi-redmi-note-9-pro-max.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/shops/530743bc-5fa8-459f-a53e-e9036e89d085/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"shops",
+								"530743bc-5fa8-459f-a53e-e9036e89d085",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Merchant Shop Product Detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/shops/530743bc-5fa8-459f-a53e-e9036e89d085/products/ccf6a3da-45e9-4d11-a82b-fedfa706d942",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"shops",
+								"530743bc-5fa8-459f-a53e-e9036e89d085",
+								"products",
+								"ccf6a3da-45e9-4d11-a82b-fedfa706d942"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Merchant Shop Product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2MTQ1Nzk1LCJpYXQiOjE2ODYxMzM3OTUsImp0aSI6IjZiYTE3NGIyYzJkMzQ0MmRhYjJmYTk1ZjYxMmIxODAzIiwidXNlcl9pZCI6Mn0.C4DW4Rb9N_2KBCFYd5S2t1o6H2pBMpRZVb98SeFS9-E",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "product_name",
+									"value": "This is updated product",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "price",
+									"value": "1000",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "This is updated product description",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "product_name",
+									"value": "Head-phones",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "price",
+									"value": "200",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "this is a new headphone",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/barma/Downloads/apple-iphone-13-pro-01.jpg",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/shops/530743bc-5fa8-459f-a53e-e9036e89d085/products/a7783484-563c-438d-a4a2-4111aadb078e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"shops",
+								"530743bc-5fa8-459f-a53e-e9036e89d085",
+								"products",
+								"a7783484-563c-438d-a4a2-4111aadb078e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Merchant Shop Product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2MTQ1Nzk1LCJpYXQiOjE2ODYxMzM3OTUsImp0aSI6IjZiYTE3NGIyYzJkMzQ0MmRhYjJmYTk1ZjYxMmIxODAzIiwidXNlcl9pZCI6Mn0.C4DW4Rb9N_2KBCFYd5S2t1o6H2pBMpRZVb98SeFS9-E",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/shops/530743bc-5fa8-459f-a53e-e9036e89d085/products/0bbbfd89-5003-444f-8590-ef8f654dbe10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"shops",
+								"530743bc-5fa8-459f-a53e-e9036e89d085",
+								"products",
+								"0bbbfd89-5003-444f-8590-ef8f654dbe10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Merchant Shop Product",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/shops/530743bc-5fa8-459f-a53e-e9036e89d085/products/search?product=k",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"shops",
+								"530743bc-5fa8-459f-a53e-e9036e89d085",
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "product",
+									"value": "k"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Connected Shop Product",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/shops/5452ebc5-d10a-43e1-959a-e2b3853d0d50/connected-shops/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"shops",
+								"5452ebc5-d10a-43e1-959a-e2b3853d0d50",
+								"connected-shops",
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "connection",
+			"item": [
+				{
+					"name": "Send Connection",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/connections/send/530743bc-5fa8-459f-a53e-e9036e89d085",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"connections",
+								"send",
+								"530743bc-5fa8-459f-a53e-e9036e89d085"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Connection Request",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/connections/request",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"connections",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Connection Action",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "status",
+									"value": "rejected",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/connections/67990241-fd30-4a61-afc3-c5d461040245/action",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"connections",
+								"67990241-fd30-4a61-afc3-c5d461040245",
+								"action"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Connected Shop",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/connections/shops/530743bc-5fa8-459f-a53e-e9036e89d085",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"connections",
+								"shops",
+								"530743bc-5fa8-459f-a53e-e9036e89d085"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cart",
+			"item": [
+				{
+					"name": "Get Cart Item",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/shops/530743bc-5fa8-459f-a53e-e9036e89d085/carts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"shops",
+								"530743bc-5fa8-459f-a53e-e9036e89d085",
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Cart Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "product",
+									"value": "20458460-f7d1-4a16-9b19-9445c59fa0e2",
+									"type": "text"
+								},
+								{
+									"key": "shop",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/shops/530743bc-5fa8-459f-a53e-e9036e89d085/carts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"shops",
+								"530743bc-5fa8-459f-a53e-e9036e89d085",
+								"carts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "Get Shop Order",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/shops/530743bc-5fa8-459f-a53e-e9036e89d085/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"shops",
+								"530743bc-5fa8-459f-a53e-e9036e89d085",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Place Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NDg4OTU1LCJpYXQiOjE2ODY0NzY5NTUsImp0aSI6ImY2ZWYyZDk1OTljNjRmODBhZjcxZWRkZWYwMzAxOTU0IiwidXNlcl9pZCI6Mn0.4cbniXizNaOWmi9yMU7sFrqwQWJ3MmryzXdhuS6RiSc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/shops/530743bc-5fa8-459f-a53e-e9036e89d085/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"shops",
+								"530743bc-5fa8-459f-a53e-e9036e89d085",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

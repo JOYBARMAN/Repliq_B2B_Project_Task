@@ -45,32 +45,37 @@ class OrderApiView(APIView):
         except Shop.DoesNotExist:
             return Response({'message': 'Shop not found with this shop uid'}, status=status.HTTP_404_NOT_FOUND)
         
-        cart_items = Cart.objects.filter(shop=shop)
+        if shop.is_active:
+            cart_items = Cart.objects.filter(shop=shop)
 
-        if cart_items:
-            product = []
-            total_price = 0
-            for item in cart_items:
-                product_data = {   
-                    'name': item.product.product_name,
-                    'quantity': item.quantity
+            if cart_items:
+                product = []
+                total_price = 0
+                for item in cart_items:
+                    product_data = {   
+                        'name': item.product.product_name,
+                        'quantity': item.quantity
+                    }
+                    product.append(product_data)
+                    product_price = item.product.price * item.quantity
+                    total_price += product_price 
+
+                # Convert product to JSON
+                product_json = json.dumps(product)
+                
+                data = {
+                    'shop':shop.id,
+                    'product':product_json,
+                    'total_price':total_price
                 }
-                product.append(product_data)
-                product_price = item.product.price * item.quantity
-                total_price += product_price 
-
-            # Convert product to JSON
-            product_json = json.dumps(product)
-            
-            data = {
-                'shop':shop.id,
-                'product':product_json,
-                'total_price':total_price
-            }
-            serializer = OrderPostSerializers(data=data)
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                return Response({'message':'Order Placed Successfully'},status=status.HTTP_201_CREATED)
-            
-        return Response({'message': 'No product found in cart'}, status=status.HTTP_404_NOT_FOUND)
+                serializer = OrderPostSerializers(data=data)
+                if serializer.is_valid(raise_exception=True):
+                    serializer.save()
+                    # Delete cart items
+                    cart_items.delete()
+                    return Response({'message':'Order Placed Successfully'},status=status.HTTP_201_CREATED)
+                
+            return Response({'message': 'No product found in cart'}, status=status.HTTP_404_NOT_FOUND)
+        
+        return Response({'message': 'Your shop is not active yet'}, status=status.HTTP_404_NOT_FOUND)
     

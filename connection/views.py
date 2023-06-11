@@ -20,10 +20,6 @@ from drf_spectacular.utils import extend_schema
 class SendConnectionView(APIView):
     renderer_classes = [UserRenderers]
     permission_classes = [IsAuthenticated]
-    # @extend_schema(
-    # request=SendConnectionSerializers,
-    # responses={201: SendConnectionSerializers},
-    # )
 
     def post(self, request,target_shop_uid):
 
