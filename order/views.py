@@ -46,6 +46,7 @@ class OrderApiView(APIView):
             return Response({'message': 'Shop not found with this shop uid'}, status=status.HTTP_404_NOT_FOUND)
         
         if shop.is_active:
+            
             cart_items = Cart.objects.filter(shop=shop)
 
             if cart_items:
@@ -78,4 +79,3 @@ class OrderApiView(APIView):
             return Response({'message': 'No product found in cart'}, status=status.HTTP_404_NOT_FOUND)
         
         return Response({'message': 'Your shop is not active yet'}, status=status.HTTP_404_NOT_FOUND)
-    
