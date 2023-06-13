@@ -45,4 +45,4 @@ class OrderItem(models.Model):
 
 
     def __str__(self):
-        return self.cart.shop.shop_name
+        return self.order.shop.shop_name
