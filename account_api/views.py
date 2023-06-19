@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate
 from .renderers import UserRenderers
 from rest_framework.permissions import IsAuthenticated
 from drf_spectacular.utils import extend_schema
-
+from account_api.models import User
 
 
 # generate token munually
@@ -26,6 +26,7 @@ class UserRegistrationView(APIView):
     responses={201: UserRegistrationSerializer},
     )
     def post(self,request,format=None):
+        '''User registration view'''
         serializer = UserRegistrationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
@@ -40,6 +41,7 @@ class UserLoginView(APIView):
     responses={201: UserLoginSerializer},
     )
     def post(self,request,format=None):
+        '''User login view'''
         serializer = UserLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         email=serializer.data.get("email")
@@ -57,6 +59,7 @@ class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self,request,format=None):
+        '''User profile view'''
         serializer = UserProfileSerializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -70,6 +73,7 @@ class UserChangePasswordView(APIView):
     )
 
     def post(self,request,format=None):
+        '''After login user can change his password'''
         serializer = UserChangePasswordSerializer(data=request.data,context={"user":request.user})
         serializer.is_valid(raise_exception=True)
         return Response({"msg":"Password Sucessfully Changed"},status=status.HTTP_200_OK)
@@ -82,6 +86,7 @@ class SendPasswordResetEmailView(APIView):
     responses={201: SendPasswordResetEmailSerializer},
     )
     def post(self,request,format=None):
+        '''User can send mail for password reset (forgot password)'''
         serializer=SendPasswordResetEmailSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response({"msg":"Password Reset link send , Please check your email"},status=status.HTTP_200_OK)
@@ -95,6 +100,16 @@ class UserPasswordResetView(APIView):
     responses={201: UserPasswordResetSerializer},
     )
     def post(self,request,uid,token,format=None):
+        '''User can reset his password through link provide in mail'''
         serializer=UserPasswordResetSerializer(data=request.data,context={"user_id":uid,"token":token})
         serializer.is_valid(raise_exception=True)
         return Response({"msg":"Password Sucessfully Changed"},status=status.HTTP_200_OK)
+    
+
+class UserList(APIView):
+    permission_classes=[IsAuthenticated]
+    def get(self,request):
+        """Get all user of the system"""
+        all_user = User.objects.all()
+        serializer = UserProfileSerializer(all_user,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)

@@ -21,12 +21,15 @@ class SendConnectionView(APIView):
     renderer_classes = [UserRenderers]
     permission_classes = [IsAuthenticated]
 
-    def post(self, request,target_shop_uid):
-
+    def post(self, request,target_org):
+        '''Send connection to shop'''
         # first get the sender and receiver information
         sender = request.user
-        receiver = Shop.objects.get(uid=target_shop_uid)
-
+        try: 
+            receiver = Shop.objects.get(uid=target_org)
+        except Shop.DoesNotExist:
+            # No active shop found for the sender
+            return Response({'message': 'Organization does not exit with this uid'}, status=status.HTTP_404_NOT_FOUND)
         try:
             # find sender active shop
             sender_active_shop = Shop.objects.get(merchant=sender, is_active=True)
@@ -43,17 +46,15 @@ class SendConnectionView(APIView):
                     "target_shop":receiver.id,
                 }
                 serializer = SendConnectionSerializers(data=data)
-                serializer.is_valid()
-                if serializer.is_valid():
+                if serializer.is_valid(raise_exception=True):
                     serializer.save()
                     return Response({'message': 'Connection sent successfully.'}, status=status.HTTP_201_CREATED)
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             else:
                 # The sender and receiver have different categories
                 return Response({'message': 'The sender and receiver is not same category'}, status=status.HTTP_400_BAD_REQUEST)
         
             # The sender and receiver have the same merchant
-        return Response({'message': 'You cannot send a connection to your own shop.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'You cannot send a connection to your own organization.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ConnectionRequest(APIView):
@@ -61,6 +62,7 @@ class ConnectionRequest(APIView):
     permission_classes = [IsAuthenticated]
     
     def get(self,request):
+        '''View connection request'''
         merchant = request.user
         connection_request = Connection.objects.filter(target_shop__merchant=merchant)
         if connection_request:
@@ -73,14 +75,16 @@ class ConnectionRequest(APIView):
 class ConnectionRequestAction(APIView):
     renderer_classes = [UserRenderers]
     permission_classes = [IsAuthenticated]
+
     @extend_schema(
     request=ConnectionActionSerializers,
     responses={201: ConnectionActionSerializers},
     )
 
-    def post(self,request,connection_uid):
+    def post(self,request,uid):
+        '''Change connection request status'''
         try:
-            connection= Connection.objects.get(uid=connection_uid)
+            connection= Connection.objects.get(uid=uid)
         except Connection.DoesNotExist:
             return Response({'message': 'Connection not found '}, status=status.HTTP_400_BAD_REQUEST)
        
@@ -103,10 +107,11 @@ class ConnectedShopView(APIView):
     renderer_classes = [UserRenderers]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, shop_uid):
+    def get(self, request, uid):
+        '''Get which organizations are connected each other'''
         # now find which shop are connected with this shop_uid
         try:
-            connected_shops = Connection.objects.filter(Q(source_shop__uid=shop_uid) | Q(target_shop__uid=shop_uid),status="approved")
+            connected_shops = Connection.objects.filter(Q(source_shop__uid=uid) | Q(target_shop__uid=uid),status="approved")
         
         except Connection.DoesNotExist:
             return Response({'message': 'You dont have any connection yet'}, status=status.HTTP_400_BAD_REQUEST)
@@ -115,7 +120,7 @@ class ConnectedShopView(APIView):
             serializer = ConnectionSerializers(connected_shops, many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
         
-        return Response({'message': "No connected shop found" }, status=status.HTTP_404_NOT_FOUND) 
+        return Response({'message': "No connected organization found" }, status=status.HTTP_404_NOT_FOUND) 
 
         # if connected_shops:
         #     shop_data_list = []

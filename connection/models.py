@@ -19,4 +19,4 @@ class Connection(models.Model):
         max_length=100, choices=status, default="pending")
 
     def __str__(self):
-        return self.source_shop.shop_name +" and "+ str(self.target_shop.shop_name )+" status is "+ str(self.status)
+        return self.source_shop.organization_name +" and "+ str(self.target_shop.organization_name )+" status is "+ str(self.status)

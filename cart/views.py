@@ -1,4 +1,4 @@
-from cart.serializers import CartProduct,CartItemSerializers,AddCartSerializers
+from cart.serializers import CartProduct,CartItemSerializers,AddCartSerializers,CartSerializers
 from cart.models import Cart,CartItem
 from shop.models import Shop
 from product.models import Product
@@ -73,50 +73,55 @@ class CartList(APIView):
     renderer_classes = [UserRenderers]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, shop_uid, format=None):
+    def get(self, request, uid, format=None):
         merchant = request.user
 
         # find shop with shop_uid
         try:
-            shop = Shop.objects.get(uid=shop_uid)
+            shop = Shop.objects.get(uid=uid)
         except Shop.DoesNotExist:
             return Response({'message': 'Shop Not Found with this shop uid'}, status=status.HTTP_400_BAD_REQUEST)
         
         # now find shop cart. if not found we create a new one 
         try:
-            cart = Cart.objects.get(shop=shop)
+            cart = Cart.objects.get(organization=shop)
         except:
-            cart_create = Cart.objects.create(shop = shop)
-            cart = Cart.objects.get(shop=shop)
+            cart_create = Cart.objects.create(organization = shop)
+            cart = Cart.objects.get(organization=shop)
         
         if cart:
             cart_items = CartItem.objects.filter(cart=cart)
             if cart_items:
-                serializer = CartItemSerializers(cart_items,many=True)
-                return Response(serializer.data,status=status.HTTP_200_OK)
+                cart_serializer = CartSerializers(cart)
+                item_serializer = CartItemSerializers(cart_items,many=True)
+                cart_data = {
+                    'cart':cart_serializer.data,
+                    'cart_items':item_serializer.data
+                }
+                return Response(cart_data,status=status.HTTP_200_OK)
             else:
                 return Response({'message': 'No item found in your cart.'}, status=status.HTTP_404_NOT_FOUND)
-        
+                    
         return Response({"message":"No cart found"},status=status.HTTP_200_OK)
     
     @extend_schema(
     request=CartProduct,
     responses={201: CartProduct},
     )
-    def post(self, request, shop_uid, format=None):
+    def post(self, request, uid, format=None):
 
         # find shop with shop_uid
         try:
-            shop = Shop.objects.get(uid=shop_uid)
+            shop = Shop.objects.get(uid=uid)
         except Shop.DoesNotExist:
             return Response({'message': 'Shop Not Found with this shop uid'}, status=status.HTTP_400_BAD_REQUEST)
         
         # now find shop cart. if not found we create a new one 
         try:
-            cart = Cart.objects.get(shop=shop)
+            cart = Cart.objects.get(organization=shop)
         except:
-            cart_create = Cart.objects.create(shop = shop)
-            cart = Cart.objects.get(shop=shop)
+            cart_create = Cart.objects.create(organization = shop)
+            cart = Cart.objects.get(organization = shop)
         if shop.is_active:
             try:
                 product = Product.objects.get(uid=request.data.get('product'))

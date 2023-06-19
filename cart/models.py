@@ -16,11 +16,11 @@ import uuid
     
 class Cart(models.Model):
     uid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    shop = models.ForeignKey(Shop,on_delete=models.CASCADE)
+    organization = models.ForeignKey(Shop,on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.shop.shop_name
+        return self.organization.organization_name
     
 
 class CartItem(models.Model):

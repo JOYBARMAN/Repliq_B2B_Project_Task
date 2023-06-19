@@ -25,17 +25,16 @@ class CartProduct(serializers.ModelSerializer):
 
 
 class CartSerializers(serializers.ModelSerializer):
-    shop = ShopSerializers(read_only=True)
+    organization = ShopSerializers(read_only=True)
     class Meta:
         model = Cart
-        fields = ['shop']
+        fields = ['organization']
 
 
 class CartItemSerializers(serializers.ModelSerializer):
-    cart = CartSerializers(read_only=True)
     class Meta:
         model = CartItem
-        fields = ['cart','product','quantity','price']
+        fields = ['product','quantity','price']
 
 
 class AddCartSerializers(serializers.ModelSerializer):

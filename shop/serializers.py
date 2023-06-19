@@ -10,14 +10,14 @@ class ShopSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Shop
-        fields = ['uid','merchant','shop_name','category','description','active_code','is_active']
+        fields = ['uid','merchant','organization_name','category','description','active_code','is_active']
 
 
 class ShopPostSerializers(serializers.ModelSerializer):
     
     class Meta:
         model = Shop
-        fields = ['merchant','shop_name','category','description','active_code']
+        fields = ['merchant','organization_name','category','description','active_code']
 
 
 class ActiveShopSerializer(serializers.Serializer):

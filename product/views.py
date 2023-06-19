@@ -9,6 +9,7 @@ from account_api.renderers import UserRenderers
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
 from django.http import Http404
+from drf_spectacular.utils import extend_schema
 
 
 
@@ -16,25 +17,30 @@ class ProductAPIView(APIView):
     renderer_classes = [UserRenderers]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request ,shop_uid):
-        shop = Shop.objects.get(uid=shop_uid)
-        shop_products = Product.objects.filter(shop=shop)
+    def get(self, request ,uid):
+        '''Get product list of merchant organization'''
+        shop = Shop.objects.get(uid=uid)
+        shop_products = Product.objects.filter(organization=shop)
 
         if shop.merchant.uid == request.user.uid:
             if shop_products:
                 serializer = ProductSerializers(shop_products, many=True)
                 return Response(serializer.data,status=status.HTTP_200_OK)
             else:
-                return Response({'message': 'No product found for this shop.'}, status=status.HTTP_404_NOT_FOUND)
+                return Response({'message': 'No product found for this organization.'}, status=status.HTTP_404_NOT_FOUND)
             
-        return Response({'message': 'You are not merchant of this shop'}, status=status.HTTP_403_FORBIDDEN) 
+        return Response({'message': 'You are not merchant of this organization'}, status=status.HTTP_403_FORBIDDEN) 
         
-    
-    def post(self, request,shop_uid):
-        shop = Shop.objects.get(uid=shop_uid)
+    @extend_schema(
+        request=ProductPostSerializers,
+        responses={201: ProductPostSerializers},
+    )
+    def post(self, request,uid):
+        '''Add product of merchant organization'''
+        shop = Shop.objects.get(uid=uid)
         if shop.merchant.uid == request.user.uid:
             data={
-                'shop':shop.id,
+                'organization':shop.id,
                 'product_name':request.data.get('product_name'),
                 'price':request.data.get('price'),
                 'description':request.data.get('description'),
@@ -46,32 +52,34 @@ class ProductAPIView(APIView):
                 return Response({'message': 'Product added sucessfully'}, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-        return Response({'message': 'You are not merchant of this shop'}, status=status.HTTP_403_FORBIDDEN)
+        return Response({'message': 'You are not merchant of this organization'}, status=status.HTTP_403_FORBIDDEN)
 
 
 class ProductDetailView(APIView):
     renderer_classes = [UserRenderers]
     permission_classes = [IsAuthenticated]
 
-    def get_object(self, product_uid):
+    def get_object(self, uid):
         try:
-            return Product.objects.get(uid=product_uid)
+            return Product.objects.get(uid=uid)
         except Product.DoesNotExist:
             raise Http404
 
-    def get(self, request,shop_uid, product_uid, format=None):
-        product = self.get_object(product_uid)
-        if product.shop.merchant.uid != request.user.uid:
+    def get(self, request,org_uid,uid, format=None):
+        '''Get product detail'''
+        product = self.get_object(uid)
+        if product.organization.merchant.uid != request.user.uid:
             return Response({'message': 'You are not authorized to view this product'}, status=status.HTTP_403_FORBIDDEN)
         serializer = ProductSerializers(product)
         return Response(serializer.data,status=status.HTTP_200_OK)
     
-    def put(self, request,shop_uid, product_uid, format=None):
-        product = self.get_object(product_uid)
-        shop = Shop.objects.get(uid=shop_uid)
+    def put(self, request,org_uid, uid, format=None):
+        '''Update product informations'''
+        product = self.get_object(uid)
+        shop = Shop.objects.get(uid=org_uid)
         if shop.merchant.uid == request.user.uid:
             data={
-                'shop':shop.id,
+                'organization':shop.id,
                 'product_name':request.data.get('product_name'),
                 'price':request.data.get('price'),
                 'description':request.data.get('description'),
@@ -85,22 +93,24 @@ class ProductDetailView(APIView):
         
         return Response({'message': 'You are not merchant of this shop'}, status=status.HTTP_403_FORBIDDEN)
     
-    def delete(self, request,product_uid,shop_uid, format=None):
-        product = self.get_object(product_uid)
-        shop = Shop.objects.get(uid=shop_uid)
+    def delete(self, request,uid,org_uid, format=None):
+        '''Delete a product'''
+        product = self.get_object(uid)
+        shop = Shop.objects.get(uid=org_uid)
         if shop.merchant.uid == request.user.uid:
             product.delete()
             return Response({"msg":"Product Successfully Removed"},status=status.HTTP_204_NO_CONTENT)
-        return Response({'message': 'You are not merchant of this shop'}, status=status.HTTP_403_FORBIDDEN)
+        return Response({'message': 'You are not merchant of this organization'}, status=status.HTTP_403_FORBIDDEN)
 
 
 class ProductSearchView(APIView):
     renderer_classes = [UserRenderers]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request ,shop_uid):
-        shop = Shop.objects.get(uid=shop_uid)
-        shop_products = Product.objects.filter(shop=shop)
+    def get(self, request ,uid):
+        '''Get searched product'''
+        shop = Shop.objects.get(uid=uid)
+        shop_products = Product.objects.filter(organization=shop)
         search_query = request.query_params.get('product', '')
         products = shop_products.filter(product_name__icontains=search_query)
 
@@ -118,13 +128,14 @@ class ConnectedShopProduct(APIView):
     renderer_classes = [UserRenderers]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request ,shop_uid):
+    def get(self, request ,uid):
+        '''Get product list of connected organization '''
         # merchant who want to see another merchant shop product
         requested_merchant = request.user
 
         # find the shop with shop uid and then find the shop product
-        shop = Shop.objects.get(uid=shop_uid)
-        shop_products = Product.objects.filter(shop=shop)
+        shop = Shop.objects.get(uid=uid)
+        shop_products = Product.objects.filter(organization=shop)
 
         # now check if the merchant isn't want to see his own shop product
         if shop.merchant == requested_merchant :
@@ -144,10 +155,10 @@ class ConnectedShopProduct(APIView):
                     serializer = ProductSerializers(shop_products, many=True)
                     return Response(serializer.data,status=status.HTTP_200_OK)
                 else:
-                    return Response({'message': 'No product found for this shop.'}, status=status.HTTP_404_NOT_FOUND)
+                    return Response({'message': 'No product found for this organization.'}, status=status.HTTP_404_NOT_FOUND)
            
             return Response({'message':"your connection request isn't approved yet"},status=status.HTTP_403_FORBIDDEN)
         
-        return Response({'message':"you don't have any connection with this shop"},status=status.HTTP_403_FORBIDDEN)
+        return Response({'message':"you don't have any connection with this organization"},status=status.HTTP_403_FORBIDDEN)
 
 

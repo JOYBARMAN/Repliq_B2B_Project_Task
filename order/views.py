@@ -86,14 +86,14 @@ class OrderApiView(APIView):
     renderer_classes = [UserRenderers]
     permission_classes = [IsAuthenticated]
 
-    def get(self,request,shop_uid):
+    def get(self,request,uid):
         try:
-            shop = Shop.objects.get(uid=shop_uid)
+            shop = Shop.objects.get(uid=uid)
         except Shop.DoesNotExist:
             return Response({'message': 'Shop not found with this shop uid'}, status=status.HTTP_404_NOT_FOUND)
         
         # find orders
-        orders = Order.objects.filter(shop=shop)
+        orders = Order.objects.filter(organization=shop)
 
         if orders :
             order_data = []
@@ -109,18 +109,18 @@ class OrderApiView(APIView):
         return Response({'message': 'No order found for this shop.'}, status=status.HTTP_404_NOT_FOUND)
 
 
-    def post(self,request,shop_uid):
+    def post(self,request,uid):
         try:
-            shop = Shop.objects.get(uid=shop_uid)
+            shop = Shop.objects.get(uid=uid)
         except Shop.DoesNotExist:
             return Response({'message': 'Shop not found with this shop uid'}, status=status.HTTP_404_NOT_FOUND)
         
         if shop.is_active:
             
-            cart_items = CartItem.objects.filter(cart__shop=shop)
+            cart_items = CartItem.objects.filter(cart__organization=shop)
 
             if cart_items:
-                order = Order.objects.create(shop=shop,order_status='PENDING',total_price=0)
+                order = Order.objects.create(organization=shop,order_status='PENDING',total_price=0)
                 total_price = 0
                 # create order item 
                 for item in cart_items:

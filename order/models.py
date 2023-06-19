@@ -26,13 +26,13 @@ class OrderStatus(models.TextChoices):
 
 class Order(models.Model):
     uid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Shop, on_delete=models.CASCADE)
     order_status = models.CharField(max_length=20, choices=OrderStatus.choices, default=OrderStatus.PENDING)
     total_price = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.shop.shop_name
+        return self.organization.organization_name
 
 
 class OrderItem(models.Model):
@@ -45,4 +45,4 @@ class OrderItem(models.Model):
 
 
     def __str__(self):
-        return self.order.shop.shop_name
+        return self.order.organization.organization_name

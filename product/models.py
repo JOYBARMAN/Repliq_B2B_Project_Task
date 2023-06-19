@@ -4,7 +4,7 @@ import uuid
 
 class Product(models.Model):
     uid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    shop = models.ForeignKey(Shop,on_delete=models.CASCADE)
+    organization = models.ForeignKey(Shop,on_delete=models.CASCADE)
     product_name=models.CharField(max_length=255)
     price = models.PositiveIntegerField()
     description=models.TextField()
